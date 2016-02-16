@@ -18,6 +18,10 @@ Make sure that there is a search template at
 `kagiso_search/search_results.html` in your templates folder
 (see a sample below).
 
+Add the following required configuration settings:
+
+`ITEMS_PER_PAGE` (The number of results per page in the pager)
+
 ## Sample 404 Page (from our CMS)
 ```html
 {% extends 'core/base.html' %}
