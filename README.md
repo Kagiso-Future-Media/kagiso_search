@@ -18,7 +18,7 @@ Make sure that there is a search template at
 `kagiso_search/search_results.html` in your templates folder
 (see a sample below).
 
-Add the following required configuration settings:
+Add the following required configuration setting:
 
 `ITEMS_PER_PAGE` (The number of results per page in the pager)
 
