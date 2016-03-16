@@ -4,10 +4,10 @@ from wagtail.wagtailcore.models import Page
 def pg_full_text_search(search_query, root_page):
     root_path = root_page.path
     root_path_len = len(root_path)
-    search_query = search_query.strip()
+    search_query = _prepare_query(search_query)
 
     sql = ("WITH QUERY AS ("  # noqa
-            "SELECT to_tsquery('english', replace(%s, ' ', ' & ')) AS tsquery "  # noqa
+            "SELECT to_tsquery('english', %s) AS tsquery "  # noqa
             ") "  # noqa
             "SELECT p.*, "  # noqa
             "ts_headline('english', p.title, query.tsquery) AS headline, "  # noqa
@@ -17,3 +17,11 @@ def pg_full_text_search(search_query, root_page):
             "ORDER BY rank DESC, first_published_at DESC")  # noqa
 
     return Page.objects.raw(sql, [search_query, root_path_len, root_path])
+
+
+def _prepare_query(query):
+    # Ampersands are special characters used for PG full text search
+    query = query.replace('&', '')
+    query_list = query.split()
+    query = ' & '.join(query_list)
+    return query

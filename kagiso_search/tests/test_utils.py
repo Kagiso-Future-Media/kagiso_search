@@ -7,7 +7,14 @@ from ..utils import pg_full_text_search
 class PGFullTextSearchTestCase(TestCase):
 
     def test_search_no_results_found(self):
-        result = pg_full_text_search('Justin Bieber')
+        home_page = Page.objects.get(slug='home')
+        result = pg_full_text_search('Justin Bieber', home_page)
+
+        assert list(result) == []
+
+    def test_search_removes_ampersands(self):
+        home_page = Page.objects.get(slug='home')
+        result = pg_full_text_search('Justin & Bieber', home_page)
 
         assert list(result) == []
 
@@ -24,6 +31,6 @@ class PGFullTextSearchTestCase(TestCase):
         home_page.add_child(instance=bieber_article_1)
         home_page.add_child(instance=bieber_article_2)
 
-        result = pg_full_text_search('Justin Bieber')
+        result = pg_full_text_search('Justin Bieber', home_page)
 
         assert list(result) == [bieber_article_1, bieber_article_2]
