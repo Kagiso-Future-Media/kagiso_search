@@ -20,20 +20,15 @@ class PGFullTextSearchTestCase(TestCase):
 
     def test_search_multiple_results_found(self):
         home_page = Page.objects.get(slug='home')
-        bieber_article_1 = Page(
+        bieber_article = Page(
             title='Justin Bieber',
             slug='justin-bieber'
         )
-        bieber_article_2 = Page(
-            title='Justin Bieber Again',
-            slug='justin-bieber-again'
-        )
-        home_page.add_child(instance=bieber_article_1)
-        home_page.add_child(instance=bieber_article_2)
+        home_page.add_child(instance=bieber_article)
 
         result = pg_full_text_search('Justin Bieber', home_page)
 
-        assert list(result) == [bieber_article_1, bieber_article_2]
+        assert list(result) == [bieber_article]
 
     def test_search_scopes_to_site_root_page(self):
         home_page = Page.objects.get(slug='home')
