@@ -26,7 +26,12 @@ def search(request):
         page = paginator.page(page_number)
         # Only call `.specific` on page items rather than whole dataset
         # as specific is extremely slow
-        page.object_list = [item.specific for item in page.object_list]
+        items = []
+        for item in page.object_list:
+            specific_item = item.specific
+            specific_item.headline = item.headline
+            items.append(specific_item)
+        page.object_list = items
     except EmptyPage:
         # Show empty search page, like Tumblr and co.
         pass
