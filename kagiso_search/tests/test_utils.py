@@ -34,3 +34,21 @@ class PGFullTextSearchTestCase(TestCase):
         result = pg_full_text_search('Justin Bieber', home_page)
 
         assert list(result) == [bieber_article_1, bieber_article_2]
+
+    def test_search_scopes_to_site_root_page(self):
+        home_page = Page.objects.get(slug='home')
+        root_article = Page(
+            title='Justin Bieber',
+            slug='justin-bieber'
+        )
+        non_root_article = Page(
+            depth=0,
+            title='Justin Bieber Again',
+            slug='justin-bieber-again'
+        )
+        home_page.add_child(instance=root_article)
+        non_root_article.save()
+
+        result = pg_full_text_search('Justin Bieber', home_page)
+
+        assert list(result) == [root_article]
