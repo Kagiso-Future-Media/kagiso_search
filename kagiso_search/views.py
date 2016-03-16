@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import render
 from django.views.decorators.cache import never_cache
-from wagtail.wagtailsearch.models import Query
 
 
 from .utils import pg_full_text_search
@@ -26,9 +25,6 @@ def search(request):
                 specific = result.specific
                 specific.headline = result.headline
                 search_results.append(specific)
-
-            # Log the query so Wagtail can suggest promoted results
-            Query.get(search_query).add_hit()
 
     paginator = Paginator(search_results, settings.ITEMS_PER_PAGE)
     try:
