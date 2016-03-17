@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
 from django.shortcuts import render
 from django.views.decorators.cache import never_cache
-from wagtail.wagtailsearch.models import Query
 
 
 from .utils import pg_full_text_search
@@ -15,24 +14,24 @@ def search(request):
     search_results = []
 
     if search_query:
-        non_site_scoped_results = pg_full_text_search(search_query)
-        for result in non_site_scoped_results:
-            # TODO: RawQuerySet cannot call further filter methods like is
-            # possible on a regular queryset.
-            # http://stackoverflow.com/a/9135752/818951
-            # Maybe the below can be done in regular sql
-            ancestors = result.get_ancestors()
-            if request.site.root_page in ancestors:  # Scope to current site
-                specific = result.specific
-                specific.headline = result.headline
-                search_results.append(specific)
-
-            # Log the query so Wagtail can suggest promoted results
-            Query.get(search_query).add_hit()
+        search_results = pg_full_text_search(
+            search_query,
+            request.site.root_page
+        )
+        # RawQuerySet has no len() needed by the paginator
+        search_results = list(search_results)
 
     paginator = Paginator(search_results, settings.ITEMS_PER_PAGE)
     try:
         page = paginator.page(page_number)
+        # Only call `.specific` on page items rather than whole dataset
+        # as specific is extremely slow
+        items = []
+        for item in page.object_list:
+            specific_item = item.specific
+            specific_item.headline = item.headline
+            items.append(specific_item)
+        page.object_list = items
     except EmptyPage:
         # Show empty search page, like Tumblr and co.
         pass
