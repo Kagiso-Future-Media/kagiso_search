@@ -20,8 +20,12 @@ def pg_full_text_search(search_query, root_page):
 
 
 def _prepare_query(query):
-    # Ampersands are special characters used for PG full text search
+    # Ampersands are special characters used for PG full text search (the AND operator) # noqa
     query = query.replace('&', '')
+
+    # Multiple terms must have AND/OR/NOT, so join the terms with AND
+    # http://www.postgresql.org/docs/9.4/static/textsearch-intro.html#TEXTSEARCH-MATCHING
     query_list = query.split()
     query = ' & '.join(query_list)
+
     return query

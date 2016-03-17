@@ -18,7 +18,7 @@ class PGFullTextSearchTestCase(TestCase):
 
         assert list(result) == []
 
-    def test_search_multiple_results_found(self):
+    def test_search_results_found(self):
         home_page = Page.objects.get(slug='home')
         bieber_article = Page(
             title='Justin Bieber',
