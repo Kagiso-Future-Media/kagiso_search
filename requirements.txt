@@ -5,29 +5,28 @@
 #    pip-compile requirements.in
 #
 beautifulsoup4==4.4.1     # via wagtail
-django-appconf==1.0.1     # via django-compressor
-django-compressor==2.0    # via wagtail
-django-modelcluster==1.1  # via wagtail
-django-taggit==0.18.0     # via wagtail
-django-treebeard==3.0     # via wagtail
-django==1.8.9
-djangorestframework==3.3.2  # via wagtail
-flake8-import-order==0.6.1
-flake8==2.5.2
+django-modelcluster==2.0  # via wagtail
+django-taggit==0.18.3     # via wagtail
+django-treebeard==4.0.1   # via wagtail
+django==1.9.7
+djangorestframework==3.3.3  # via wagtail
+flake8-import-order==0.8
+flake8-print==2.0.2
+flake8-quotes==0.3.0
+flake8==2.6.2
 html5lib==0.9999999       # via wagtail
-mccabe==0.4.0             # via flake8
-pep8-naming==0.3.3
-pep8==1.7.0               # via flake8, flake8-import-order
-Pillow==3.1.1             # via wagtail
+mccabe==0.5.0             # via flake8
+pep8-naming==0.4.1
+pep8==1.7.0               # via flake8-import-order, flake8-quotes
+pillow==3.2.0             # via wagtail
 psycopg2==2.6.1
 py==1.4.31                # via pytest
-pyflakes==1.0.0           # via flake8
+pycodestyle==2.0.0        # via flake8
+pyflakes==1.2.3           # via flake8
 pytest-django==2.9.1
-pytest==2.8.7             # via pytest-django
-pytz==2015.7              # via django-modelcluster
-rcssmin==1.0.6            # via django-compressor
-rjsmin==1.0.12            # via django-compressor
-six==1.10.0               # via django-appconf, html5lib, willow
-Unidecode==0.4.19         # via wagtail
-wagtail==1.3.1
-Willow==0.2.2             # via wagtail
+pytest==2.9.2             # via pytest-django
+pytz==2016.4              # via django-modelcluster
+six==1.10.0               # via html5lib
+unidecode==0.4.19         # via wagtail
+wagtail==1.5.2
+willow==0.3.1             # via wagtail

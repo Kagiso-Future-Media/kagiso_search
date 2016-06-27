@@ -38,6 +38,7 @@ class PGFullTextSearchTestCase(TestCase):
         )
         non_root_article = Page(
             depth=0,
+            path='0002',
             title='Justin Bieber Again',
             slug='justin-bieber-again'
         )
