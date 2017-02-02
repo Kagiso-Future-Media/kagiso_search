@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='kagiso_search',
-    version='1.0.2',
+    version='2.0.0',
     author='Kagiso Media',
     author_email='development@kagiso.io',
     description='Kagiso Search',
