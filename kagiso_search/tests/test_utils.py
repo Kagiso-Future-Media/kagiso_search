@@ -48,3 +48,19 @@ class PGFullTextSearchTestCase(TestCase):
         result = pg_full_text_search('Justin Bieber', home_page)
 
         assert list(result) == [root_article]
+
+    def test_search_does_not_return_copied_pages(self):
+        home_page = Page.objects.get(slug='home')
+        bieber_article = Page(
+            title='Justin Bieber',
+            slug='justin-bieber'
+        )
+        home_page.add_child(instance=bieber_article)
+        bieber_article_copy = bieber_article.copy(
+            update_attrs={'slug': 'justin-bieber-copy'}
+        )
+
+        result = pg_full_text_search('Justin Bieber', home_page)
+
+        assert list(result) == [bieber_article]
+
