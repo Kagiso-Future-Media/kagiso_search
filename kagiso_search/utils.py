@@ -9,12 +9,12 @@ def pg_full_text_search(search_query, root_page):
     sql = ("WITH QUERY AS ("  # noqa
             "SELECT to_tsquery('english', %s) AS tsquery "  # noqa
             ") "  # noqa
-            "SELECT p.*, "  # noqa
+            "SELECT DISTINCT ON (rank, first_published_at, title) p.*, "  # noqa
             "ts_headline('english', p.title, query.tsquery) AS headline, "  # noqa
             "ts_rank_cd(to_tsvector('english', p.title), query.tsquery) AS rank "  # noqa
             "FROM wagtailcore_page p, query "  # noqa
             "WHERE substring(path for %s) = %s AND to_tsvector('english', p.title) @@ query.tsquery AND p.live = true "  # noqa
-            "ORDER BY rank DESC, first_published_at DESC")  # noqa
+            "ORDER BY rank DESC, first_published_at DESC, title")  # noqa
 
     return Page.objects.raw(sql, [search_query, root_path_len, root_path])
 
